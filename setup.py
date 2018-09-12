@@ -5,7 +5,7 @@ setup(
     version='0.1.0',
     author='M. Lisovyi',
     author_email='mlisovyiATgmail.com',
-    packages=['keggler', 'keggler.test'],
+    packages=['keggler', 'keggler.ensemble', 'keggler.plotting', 'keggler.preprocess'],
     scripts=[],
     url='http://pypi.python.org/pypi/keggler/',
     license='LICENSE.txt',
