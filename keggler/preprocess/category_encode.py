@@ -130,18 +130,18 @@ class TargetEncoder_ExpandingMean(TargetEncoder_Base):
 
 
 # use this if you want to convert categorical features to dummies
-def cat_to_dummy(train, test):
+def cat_to_dummy(train, test, target_name='TARGET'):
     train_d = pd.get_dummies(train, drop_first=False)
     test_d = pd.get_dummies(test, drop_first=False)
     # make sure that the number of features in train and test should be same
     for i in train_d.columns:
         if i not in test_d.columns:
-            if i!='TARGET':
+            if i != target_name:
                 train_d = train_d.drop(i, axis=1)
     for j in test_d.columns:
         if j not in train_d.columns:
-            if j!='TARGET':
-                test_d = test_d.drop(i, axis=1)
+            if j != target_name:
+                test_d = test_d.drop(j, axis=1)
     print('Memory usage of train increases from {:.2f} to {:.2f} MB'.format(train.memory_usage().sum() / 1024**2, 
                                                                             train_d.memory_usage().sum() / 1024**2))
     print('Memory usage of test increases from {:.2f} to {:.2f} MB'.format(test.memory_usage().sum() / 1024**2, 
