@@ -31,8 +31,8 @@ Only a list of tools is provided below.
    target (=entity) frequiency encoding either with basic method or with KFold or expanding mean regularisation.
    The implementation follows 
    [lecture 1](https://www.coursera.org/lecture/competitive-data-science/concept-of-mean-encoding-b5Gxv)
-   and h
-   [lecture 2](ttps://www.coursera.org/lecture/competitive-data-science/regularization-LGYQ2)
+   and
+   [lecture 2](https://www.coursera.org/lecture/competitive-data-science/regularization-LGYQ2)
    from week 3 of [this course on coursera](https://www.coursera.org/learn/competitive-data-science).
    Note, that currently `TargetEncoder_ExpandingMean` implements only a single permutation
    and thus has less regularisation power, than it should.
