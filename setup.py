@@ -16,6 +16,7 @@ setup(
         "pandas >= 0.22.0",
         "scikit-learn >= 0.19.1",
         "lightgbm >= 2.1.0",
-        "python >= 3.5"
+        "python >= 3.5",
+        "matplotlib >= 2.2.0"
     ],
 )
