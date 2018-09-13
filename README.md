@@ -8,6 +8,16 @@ The package is a collection of tools developed in various kaggle competitions.
 It implements various common pre-processing steps as well as 
 additional high-level models like stacking and voting ensembles.
 
+## Instalation
+
+Checkout the package from git and run the provided setup script, for example:
+```
+git clone git@github.com:mlisovyi/Keggler.git
+python setup.py install
+```
+The package requires `python 3.5+` as well as recent versions of 
+`numpy`, `pandas`, `matplotlib`, `scikit-learn`, `lightgbm`.
+
 ## HowTo
 
 The documentation of various tools is done directly in the code. 
@@ -19,7 +29,13 @@ Only a list of tools is provided below.
    with respect to the mean within a class of a categorical feature.
   - `TargetEncoder_Base`, `TargetEncoder_KFold`, `TargetEncoder_ExpandingMean`:
    target (=entity) frequiency encoding either with basic method or with KFold or expanding mean regularisation.
-   The implementation follows XXX.
+   The implementation follows 
+   [lecture 1](https://www.coursera.org/lecture/competitive-data-science/concept-of-mean-encoding-b5Gxv)
+   and h
+   [lecture 2](ttps://www.coursera.org/lecture/competitive-data-science/regularization-LGYQ2)
+   from week 3 of [this course on coursera](https://www.coursera.org/learn/competitive-data-science).
+   Note, that currently `TargetEncoder_ExpandingMean` implements only a single permutation
+   and thus has less regularisation power, than it should.
   - `cat_to_dummy`: do dummy encoding on training and testing set droping those OHE columns, 
    that are unique to either.
   - `convert_OHE2LE`: convert OHE to LE.
