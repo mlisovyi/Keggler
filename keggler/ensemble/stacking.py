@@ -7,6 +7,7 @@ from sklearn import model_selection
 from sklearn.base import BaseEstimator, MetaEstimatorMixin, ClassifierMixin
 from sklearn.base import clone
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import KFold, StratifiedKFold
 import lightgbm as lgb
 from joblib import Parallel, delayed
 import time
