@@ -4,6 +4,8 @@ __all_ = ['plot_var_for2classes',
           'plot_confusion_matrix'
          ]
 
+import pandas as pd
+import numpy as np 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D # needed for 3D scatter plots
 import itertools
