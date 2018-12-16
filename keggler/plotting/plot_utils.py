@@ -127,6 +127,8 @@ def display_importances(feature_importance_df_, n_feat=20, silent=False, dump_st
     fout_name : str or None [default: None]
         The name of the file to dump the figure. 
         If `None`, no file is created (to be used in notebooks)
+    title : str
+        The title to be assigned to the plot
     '''
     # Plot feature importances
     cols = feature_importance_df_[["feature", "importance"]].groupby("feature").mean().sort_values(
@@ -151,7 +153,7 @@ def display_importances(feature_importance_df_, n_feat=20, silent=False, dump_st
     plt.figure(figsize=(8,10))
     sns.barplot(x="importance", y="feature", 
                 data=best_features.sort_values(by="importance", ascending=False))
-    plt.title('Features (avg over folds)')
+    plt.title(title)
     plt.tight_layout()
 
     if fout_name is not None:
