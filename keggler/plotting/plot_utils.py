@@ -1,10 +1,12 @@
 __all_ = ['plot_var_for2classes', 
           'plot3D_from_df', 'plot3D_basic',
-          'display_importances'
+          'display_importances',
+          'plot_confusion_matrix'
          ]
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D # needed for 3D scatter plots
+import itertools
 
 def plot_var_for2classes(data, var_name, target_name='TARGET', xlim=None, bins=100, figsize=(15,6), normalise=True, lw=1.5, lc=('b', 'r')):
     '''
@@ -159,3 +161,40 @@ def display_importances(feature_importance_df_, n_feat=20, silent=False, dump_st
     if fout_name is not None:
         plt.savefig(fout_name)
 
+        
+###################################################################################
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+    
+    np.set_printoptions(precision=2)
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes)#, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    plt.tight_layout()
