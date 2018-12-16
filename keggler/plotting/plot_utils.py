@@ -109,7 +109,9 @@ def plot3D_basic(x, y, z, c, figsize=(17,8), fout_name=None,
 
 ####################################################################################
 
-def display_importances(feature_importance_df_, n_feat=20, silent=False, dump_strs=[], fout_name=None):
+def display_importances(feature_importance_df_, n_feat=20, 
+        silent=False, dump_strs=[], 
+        fout_name=None, title='Features (avg over folds)'):
     '''
     Make a plot of most important features from a tree-based model
 
