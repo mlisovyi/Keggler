@@ -32,6 +32,11 @@ def convert_OHE2LE(df, cat_cols=[]):
     The function will check that OHE is complete, i.e. that there are no rows with all zeros.
     If such OHE group is discovered, an additional column will be added 
     to represent such missing dummy category before label encoding.
+    The column names are expected to be `str`followed directly by an uint `i`,
+    where `str` is an element in the `cat_cols` list.
+    The values in LE will be the values `i` in the column names
+    and the dummy column added to represent the missing OHE
+    would be encoded as the max value of `np.uint16`
 
     Parameters
     ----------
@@ -55,7 +60,7 @@ def convert_OHE2LE(df, cat_cols=[]):
             print('The OHE in {} is incomplete. A new column will be added before label encoding'
                   .format(s_))
             # dummy colmn name to be added
-            col_dummy = s_+'_dummy'
+            col_dummy = s_+'-1'
             # add the column to the dataframe
             tmp_df[col_dummy] = (tmp_df[cols_s_].sum(axis=1) == 0).astype(np.int8)
             # add the name to the list of columns to be label-encoded
