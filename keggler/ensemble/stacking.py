@@ -294,20 +294,22 @@ class StackingClassifier(BaseStackingEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    cv : int [default: 5]
+    n_cv : int [default: 5]
         The number of folds to be used in split.
     random_state: int or None [default: None]
         The random state to be used in the folds splitting.
     '''
-    def __init__(self, meta_model, oof_preds, test_preds, cv=5, random_state=None, n_jobs=1,
+    def __init__(self, meta_model, oof_preds, test_preds, n_cv=5, random_state=None, n_jobs=1,
                  metric=metrics.roc_auc_score, use_base_features=False, verbose=False, 
                  use_ranks=False, scale_proba=False, use_aggs=None,
                  score_categories=False, score_categories_cols=None):
+        self.n_cv = n_cv
+        self.random_state = random_state
         super().__init__(
             meta_model=meta_model,
             oof_preds=oof_preds,
             test_preds=test_preds,
-            cv=StratifiedKFold(n_splits=cv, shuffle=True, random_state=random_state),
+            cv=StratifiedKFold(n_splits=n_cv, shuffle=True, random_state=random_state),
             n_jobs=n_jobs,
             metric=metric,
             use_base_features=use_base_features,
