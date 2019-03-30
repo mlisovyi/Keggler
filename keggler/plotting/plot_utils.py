@@ -43,7 +43,7 @@ def plot_var_for2classes(data, var_name, target_name='TARGET', xlim=None, bins=1
         xmin,xmax = xlim
         q_str='{0} >= @xmin and {0} <= @xmax and '.format(var_name)
     for i in [0,1]:
-        train.query('{} {} == {}'.format(q_str, target_name, i))[var_name].hist(bins=bins, 
+        data.query('{} {} == {}'.format(q_str, target_name, i))[var_name].hist(bins=bins, 
                                                                                 density=normalise, 
                                                                                 histtype='step', 
                                                                                 lw=lw, 
