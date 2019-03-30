@@ -5,7 +5,7 @@ setup(
     version='0.1.0',
     author='M. Lisovyi',
     author_email='mlisovyiATgmail.com',
-    packages=['keggler', 'keggler.ensemble', 'keggler.plotting', 'keggler.preprocess'],
+    packages=['keggler', 'keggler.ensemble', 'keggler.plotting', 'keggler.preprocess', 'keggler.training', 'keggler.utils'],
     scripts=[],
     url='http://pypi.python.org/pypi/keggler/',
     license='LICENSE.txt',
@@ -18,6 +18,7 @@ setup(
         "scikit-learn >= 0.19.1",
         "lightgbm >= 2.1.0",
 #        "python >= 3.5",
-        "matplotlib >= 2.2.0"
+        "matplotlib >= 2.2.0",
+        "gitpython >= 2.1.11"
     ],
 )
