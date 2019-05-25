@@ -1,7 +1,8 @@
 __all_ = ['plot_var_for2classes', 
           'plot3D_from_df', 'plot3D_basic',
           'display_importances',
-          'plot_confusion_matrix'
+          'plot_confusion_matrix',
+          'plot_top_corr_with_target'
          ]
 
 import pandas as pd
@@ -203,3 +204,19 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
     plt.tight_layout()
+
+
+def plot_top_corr_with_target(df_corr, col_target='target', n=10, v=0.05, figsize=(14,2)):
+    target_corr = df_corr[col_target].iloc[lambda x: x.index != col_target].rename('corr')
+    df_target_corr = pd.concat([target_corr, target_corr.abs().rename('corr_abs')], axis=1)
+    target_corr_top = (df_target_corr
+                       .sort_values('corr_abs', ascending=False)
+                       .head(n)[['corr']]
+                       .sort_values('corr')
+                       .rename({'corr': 'correlation'}, axis=1)
+                      )
+    _ = plt.figure(figsize=figsize)
+    _ = sns.heatmap(target_corr_top.T,
+                    vmin=-v, vmax=v, cmap='coolwarm', 
+                   annot=True, fmt='.2f')
+    _ = plt.title('Correlation with the target')
