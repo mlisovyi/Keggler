@@ -113,7 +113,8 @@ def plot3D_basic(x, y, z, c, figsize=(17,8), fout_name=None,
 
 def display_importances(feature_importance_df_, n_feat=20, 
         silent=False, dump_strs=[], 
-        fout_name=None, title='Features (avg over folds)'):
+        fout_name=None, title='Features (avg over folds)',
+        sort_by='mean'):
     '''
     Make a plot of most important features from a tree-based model
 
@@ -137,13 +138,19 @@ def display_importances(feature_importance_df_, n_feat=20,
         If `None`, no file is created (to be used in notebooks)
     title : str
         The title to be assigned to the plot
+    sort_by: str [default: mean]
+        Possible options: mean and zscore.
     '''
     # Plot feature importances
-    cols = feature_importance_df_[["feature", "importance"]].groupby("feature").mean().sort_values(
-            by="importance", ascending=False)[:n_feat].index  
+    mean_fi = feature_importance_df_[["feature", "importance"]].groupby("feature").agg(['mean','std'])
+    # single-level column names
+    mean_fi.columns = [f'{s[0]}_{s[1]}' for s in mean_fi.columns]
+    # add importance z-score (= significance)
+    mean_fi['importance_zscore'] = mean_fi['importance_mean'] / mean_fi['importance_std']
+    # most important features
+    cols = mean_fi.sort_values(by="importance_{}".format(sort_by), ascending=False)[:n_feat].index  
     
-    mean_imp = feature_importance_df_[["feature", "importance"]].groupby("feature").mean()
-    df_2_neglect = mean_imp[mean_imp['importance'] < 1e-3]
+    df_2_neglect = mean_fi[mean_fi['importance_mean'] < 1e-3]
     
     if not silent:
         print('The list of features with 0 importance: ')
@@ -152,15 +159,16 @@ def display_importances(feature_importance_df_, n_feat=20,
         pd.set_option('display.max_rows', 500)
         pd.set_option('display.max_columns', 500)
         for feat_prefix in dump_strs:
-            feat_names = [x for x in mean_imp.index if feat_prefix in x]
-            print(mean_imp.loc[feat_names].sort_values(by='importance', ascending=False))
-    del mean_imp, df_2_neglect
+            feat_names = [x for x in mean_fi.index if feat_prefix in x]
+            print(mean_fi.loc[feat_names].sort_values(by='importance', ascending=False))
+    del df_2_neglect
     
     best_features = feature_importance_df_.loc[feature_importance_df_.feature.isin(cols)]
+    best_features = best_features.merge(mean_fi, left_on='feature', right_index=True, how='left').sort_values(by="importance_{}".format(sort_by), ascending=False)
     
     plt.figure(figsize=(8,10))
     sns.barplot(x="importance", y="feature", 
-                data=best_features.sort_values(by="importance", ascending=False))
+                data=best_features)
     plt.title(title)
     plt.tight_layout()
 
