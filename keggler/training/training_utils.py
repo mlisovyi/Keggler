@@ -3,7 +3,7 @@ __all__=[
          'train_model_in_CV', 'print_perf_clf'
         ]
 
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, KFold, GroupKFold
 from sklearn.base import clone, ClassifierMixin, RegressorMixin
 import pandas as pd
 import numpy as np
@@ -33,7 +33,7 @@ def train_model_in_CV(model, X, y, metric, metric_args={},
                             verbose=True,
                             groups=None, y_eval=None,
                             mlf=None, mlf_metric_name=None,
-                            do_stratifiedkfold=True
+                            do_stratifiedkfold=True, shuffle=True
                      ):
     '''
     Single-liner to do performance evaluation of multi-class `model` in a single stratified CV.
@@ -76,6 +76,8 @@ def train_model_in_CV(model, X, y, metric, metric_args={},
         The string preffix for the metric name to be used in tracking.
     do_stratifiedkfold: bool [default: True]
         Use stratified or regular kfold.
+    shuffle: bool [default: True]
+        Use shuffling in CV
     
     Returns
     -----------
@@ -118,9 +120,9 @@ def train_model_in_CV(model, X, y, metric, metric_args={},
 
     if groups is None:
         if do_stratifiedkfold:
-            cv = StratifiedKFold(n, shuffle=True, random_state=seed)
+            cv = StratifiedKFold(n, shuffle=shuffle, random_state=seed)
         else:
-            cv = KFold(n, shuffle=True, random_state=seed)
+            cv = KFold(n, shuffle=shuffle, random_state=seed)
     else:
         cv = GroupKFold(n)
     # The out-of-fold (oof) prediction for the k-1 sample in the outer CV loop
